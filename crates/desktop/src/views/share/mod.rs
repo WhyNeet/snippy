@@ -1,7 +1,11 @@
 use gpui::*;
 use theme::*;
+use ui::FluentBuilder;
 
-use crate::state::{code::SharedCodeChangeEvent, State};
+use crate::{
+    components::code_view::CodeView,
+    state::{code::SharedCodeChangeEvent, State},
+};
 
 pub struct ShareView {
     code: Option<String>,
@@ -56,5 +60,8 @@ impl Render for ShareView {
                     })
                     .child("Paste from clipboard"),
             )
+            .when(self.code.is_some(), |this| {
+                this.child(CodeView::new(self.code.clone().unwrap()))
+            })
     }
 }
