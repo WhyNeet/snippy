@@ -7,7 +7,7 @@ pub struct Logo;
 impl RenderOnce for Logo {
     fn render(self, cx: &mut WindowContext) -> impl IntoElement {
         div()
-            .child("snippy")
+            .child("</snippy>")
             .text_color(cx.theme().colors().text_accent)
     }
 }

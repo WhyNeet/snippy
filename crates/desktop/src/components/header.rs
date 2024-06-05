@@ -21,7 +21,7 @@ impl HeaderView {
 impl Render for HeaderView {
     fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
         div()
-            .h_16()
+            .min_h_16()
             .w_full()
             .flex()
             .items_center()
