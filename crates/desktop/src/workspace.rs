@@ -1,4 +1,5 @@
 use gpui::*;
+use theme::*;
 
 use crate::{
     state::{tab::Tab, State},
@@ -49,6 +50,15 @@ impl Render for Workspace {
             children.push(self.receive_view.clone().into());
         }
 
-        div().text_color(rgb(0xfff)).children(children)
+        div()
+            .w_full()
+            .h_full()
+            .bg(cx.theme().colors().background)
+            .p_8()
+            .flex()
+            .flex_col()
+            .items_center()
+            .text_color(cx.theme().colors().text)
+            .children(children)
     }
 }
