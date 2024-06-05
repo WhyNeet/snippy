@@ -2,6 +2,7 @@ use gpui::*;
 use theme::*;
 
 use crate::{
+    components::header::HeaderView,
     state::{tab::Tab, State},
     views::{receive::ReceiveView, share::ShareView, tabs::TabsView},
 };
@@ -9,7 +10,7 @@ use crate::{
 pub struct Workspace {
     share_view: View<ShareView>,
     receive_view: View<ReceiveView>,
-    tabs_view: View<TabsView>,
+    header_view: View<HeaderView>,
 
     current_tab: Tab,
 }
@@ -17,9 +18,9 @@ pub struct Workspace {
 impl Workspace {
     pub fn build(cx: &mut WindowContext) -> View<Workspace> {
         cx.new_view(|cx| {
-            let tabs_view = TabsView::build(cx);
             let share_view = ShareView::build(cx);
             let receive_view = ReceiveView::build(cx);
+            let header_view = HeaderView::build(cx);
 
             let state = cx.global::<State>().clone();
             let current_tab = state.tab_state.read(cx).get_current_tab();
@@ -33,8 +34,8 @@ impl Workspace {
             Workspace {
                 share_view,
                 receive_view,
-                tabs_view,
                 current_tab,
+                header_view,
             }
         })
     }
@@ -42,23 +43,23 @@ impl Workspace {
 
 impl Render for Workspace {
     fn render(&mut self, cx: &mut ViewContext<Self>) -> impl IntoElement {
-        let mut children: Vec<AnyView> = vec![self.tabs_view.clone().into()];
-
-        if self.current_tab == Tab::Share {
-            children.push(self.share_view.clone().into());
+        let tab: AnyView = if self.current_tab == Tab::Share {
+            self.share_view.clone().into()
         } else {
-            children.push(self.receive_view.clone().into());
-        }
+            self.receive_view.clone().into()
+        };
 
         div()
             .w_full()
             .h_full()
             .bg(cx.theme().colors().background)
             .p_8()
+            .pt_0()
             .flex()
             .flex_col()
             .items_center()
             .text_color(cx.theme().colors().text)
-            .children(children)
+            .child(self.header_view.clone())
+            .child(tab)
     }
 }
