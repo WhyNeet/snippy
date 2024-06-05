@@ -4,7 +4,7 @@ use theme::*;
 use crate::{
     components::header::HeaderView,
     state::{tab::Tab, State},
-    views::{receive::ReceiveView, share::ShareView, tabs::TabsView},
+    views::{receive::ReceiveView, share::ShareView},
 };
 
 pub struct Workspace {
